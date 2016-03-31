@@ -31,7 +31,7 @@ The above command will start the datapath progress, with a passive tcp connectio
 
 Start the secure channel:
 
-$ ofprotocol tcp:<switch-host>:<switch-port> tcp:<ctrl-host>:<ctrl-port> 
+$ ofprotocol tcp:switch-host:switch-port tcp:ctrl-host:ctrl-port 
 
 This command will open TCP connections to both the switch and the controller, relaying OpenFlow protocol messages between the two. For a complete list of options, use the `-h` argument.
 
