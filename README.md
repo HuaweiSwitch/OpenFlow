@@ -12,7 +12,7 @@ Installation
 
 Circumstance instruction:
 This software should compile under Unix-like environments which runs in lxc environment contained by CE switch.
------------------
+
 Main steps:
   - Install CE switch with firmware which included lxc environment.
   - Pre-configure CE switch.
@@ -31,8 +31,7 @@ The above command will start the datapath progress, with a passive tcp connectio
 
 Start the secure channel:
 
-$ ofprotocol tcp:<switch-host>:<switch-port> tcp:<ctrl-host>:
-<ctrl-port> 
+$ ofprotocol tcp:<switch-host>:<switch-port> tcp:<ctrl-host>:<ctrl-port> 
 
 This command will open TCP connections to both the switch and the controller, relaying OpenFlow protocol messages between the two. For a complete list of options, use the `-h` argument.
 
@@ -42,8 +41,7 @@ $ dpctl tcp:<switch-host>:<switch-port> stats-flow table=0
 
 To install a flow:
 
-$ dpctl tcp:<switch-host>:<switch-port> flow-mod table=0,cmd=add in_port=1,
-eth_type=0x86dd,ext_hdr=hop+dest apply:output=2
+$ dpctl tcp:<switch-host>:<switch-port> flow-mod table=0,cmd=add in_port=1,eth_type=0x86dd,ext_hdr=hop+dest apply:output=2
 
 The example above install a flow to match IPv6 packets with extension headers hop by hop and destination and coming from the port 1.
 
