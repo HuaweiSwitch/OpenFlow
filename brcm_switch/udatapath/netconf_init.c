@@ -104,11 +104,11 @@ unsigned int NETCONF_Init(struct datapath *dp)
         dp->ports[uiloop].port_pvid = dp->pvid[uiloop];
     }
 
-    /* 获取ofdatapath.cfg中所配置vlan的vlanBit */
+    /* 鑾峰彇ofdatapath.cfg涓墍閰嶇疆vlan鐨剉lanBit */
     NETCONF_Get_Confbit(dp->vlans, dp->vlannumber, dp->vlanBit);
     NETCONF_Vlanbit2NetVlanBit(dp->vlanBit, netconfBit);
 
-    /* 设置vlan */
+    /* 璁剧疆vlan */
 
     uiRet = NETCONF_Create_Vlanbit(netconf_session, netconfBit);
     if (uiRet != NC_REPLY_OK)
@@ -121,7 +121,7 @@ unsigned int NETCONF_Init(struct datapath *dp)
 
     NETCONF_Create_Vlan_Description_All(netconf_session, dp->vlans, dp->vlannumber);
 
-    /* 清除端口所加vlan */
+    /* 娓呴櫎绔彛鎵�鍔爒lan */
     uiRet = NETCONF_Create_Port_access_all(netconf_session, dp->portnumber, (char *)(dp->ifname));
     if (uiRet != DATAPATH_OK)
     {
@@ -131,7 +131,7 @@ unsigned int NETCONF_Init(struct datapath *dp)
         return DATAPATH_ERR;
     }
 
-    /* 端口加VLAN */
+    /* 绔彛鍔燰LAN */
     uiRet = NETCONF_Create_Port_Vlan_all(netconf_session, dp->portnumber, (char *)(dp->ifname), dp->pvid, netconfBit);
 
     nc_cpblts_free(cpblts);
@@ -366,18 +366,12 @@ unsigned int NETCONF_Create_Vlan_Description
             "<config>"\
                 "<vlan xmlns=\"http://www.huawei.com/netconf/vrp\" content-version=\"1.0\" format-version=\"1.0\">"\
                     "<vlans>\n");
-    for (uiLoop = uiLoop; uiLoop < uiVlanNum; uiLoop++)
-    {
+
         uiLength += sprintf(send_data + uiLength,
                         "<vlan operation=\"merge\">"\
                             "<vlanId>%d</vlanId>"\
                                 "<vlanDesc>openflow</vlanDesc>"\
                         "</vlan>\n", auiVlans[uiLoop]);
-        if(uiLength > (NETCONF_SEND_DATA_LEN - 200))
-        {
-            break;
-        }
-    }
 
     uiLength += sprintf(send_data+uiLength,
                     "</vlans>"\
@@ -625,7 +619,7 @@ unsigned int NETCONF_Create_Port_Vlan_all(struct nc_session * netconf_session, u
     uiLen = strlen(send_head);
     uiEndLen = strlen(send_end);
 
-    /* 端口加VLAN 1 */
+    /* 绔彛鍔燰LAN 1 */
     for(uiloop = 0; uiloop < uiPortNum/NETCONF_PORT_NUM; uiloop++)
     {
         memset(send_data, 0, NETCONF_BUF_PORT_VLAN_MAX);
@@ -685,7 +679,7 @@ void NETCONF_Delete_All_Port_Vlan(struct nc_session * netconf_session, unsigned 
     unsigned int uiLoop = 0;
     char         aucVlanBit[NETCONF_VLANBIT_LEN_STR+1] = {0};
 
-    /* 清vlan+port */
+    /* 娓卾lan+port */
     for (uiLoop = 0; uiLoop < uiPortNum; uiLoop++)
     {
         //VLOG_ERR(LOG_MODULE, "uiLoop = %d, ifname:%s\n", uiLoop, pucIfName+uiLoop*NETCONF_IFNAME_LEN_MAX);
@@ -985,10 +979,10 @@ unsigned int NETCONF_Clear_Config(struct nc_session * netconf_session, char aucV
 {
     unsigned int uiRet = DATAPATH_ERR;
 
-    /* 清vlan+port */
+    /* 娓卾lan+port */
     NETCONF_Delete_All_Port_Vlan(netconf_session, uiPortNum, pucIfName);
 
-    /* 清vlan */
+    /* 娓卾lan */
     uiRet = NETCONF_Delete_Vlanbit(netconf_session, aucVlanBit);
     if (uiRet != NC_REPLY_OK)
     {
@@ -1144,7 +1138,7 @@ unsigned int NETCONF_Del_Init(struct datapath *dp)
     NETCONF_Vlanbit2NetVlanBit(dp->vlanBit, netconfBit);
 
 
-    /* 删除vlan */
+    /* 鍒犻櫎vlan */
     uiRet = NETCONF_Delete_Vlanbit(netconf_session, netconfBit);
     if (uiRet != NC_REPLY_OK)
     {
@@ -1155,7 +1149,7 @@ unsigned int NETCONF_Del_Init(struct datapath *dp)
         //ofp_fatal(0, "[vlan] reply_get failed.");
     }
 
-    /* 端口退出VLAN并删除vlan*/
+    /* 绔彛閫�鍑篤LAN骞跺垹闄lan*/
 
     memset(send_data,0,NETCONF_SEND_DATA_LEN);
 
@@ -1180,7 +1174,7 @@ unsigned int NETCONF_Create_Port_access_all(struct nc_session * netconf_session,
     unsigned int uiloop   = 0;
     unsigned int uiRet    = 0;
 
-    /* 端口恢复access 模式 */
+    /* 绔彛鎭㈠access 妯″紡 */
     for(uiloop = 0; uiloop < uiPortNum; uiloop++)
     {
         uiRet = NETCONF_Create_Port_access(netconf_session, pucIfName+uiloop*NETCONF_IFNAME_LEN_MAX);
