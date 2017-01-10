@@ -384,12 +384,8 @@ parse_options(int argc, char *argv[])
     }
     free(short_options);
 
-<<<<<<< .mine
+
     if ((int)(exit_without_bind + exit_after_bind + !detach_after_bind) > 1) {
-    // add int 
-=======
-    if ((int)(exit_without_bind + exit_after_bind + !detach_after_bind) > 1) {
->>>>>>> .r16454
         ofp_fatal(0, "--exit-without-bind, --exit-after-bind, and --no-detach "
                   "are mutually exclusive");
     }
