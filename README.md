@@ -10,7 +10,7 @@ This is an [OpenFlow 1.3][ofp13] compatible user-space software switch implement
 
 ## Implement guide:
 
-Refer to []()
+Refer to [Openflow deployment guide.docx](https://raw.githubusercontent.com/HuaweiSwitch/OpenFlow/master/doc/Openflow%20deployment%20guide.docx)
 
 ## References
 
